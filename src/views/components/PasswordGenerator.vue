@@ -25,7 +25,7 @@
                                 </a>
                             </div>
                         </div>
-                        <base-progress :type="passwordStrongType" :value="passwordStrongValue"></base-progress>
+                        <base-progress :type="passwordStrengthType" :value="passwordStrengthValue"></base-progress>
                     </card>
 
                     <card shadow class="col-lg-10 offset-lg-1 mt-4 mb-5">
@@ -43,7 +43,7 @@
                                             min="1"
                                             max="50"
                                             class="form-control text-center"
-                                            @change="changePasswordLength">
+                                            @input="changePasswordLength">
                                     </div>
                                     <div class="col-8 col-sm-9 align-self-center">
                                         <base-slider v-model="passwordLength" :range="{min: 1, max: 50}"></base-slider>
@@ -88,8 +88,8 @@ export default {
             lowercase: true,
             numbers: true,
             symbols: true,
-            passwordStrongValue: 100,
-            passwordStrongType: "success"
+            passwordStrengthValue: 100,
+            passwordStrengthType: "success"
         }
     },
     computed: {
@@ -136,31 +136,33 @@ export default {
             }
             return pass
         },
-        async changePasswordLength(e) {
-            const length = e.target.value
-            if (!Number.isInteger(length)) {
+        changePasswordLength(e) {
+            let length = e.target.value
+            if (!isNaN(parseInt(length)) && isFinite(length)) {
+                if (length < 0 || length > 50) {
+                    length = 1
+                }
+
                 this.passwordLength = Math.round(length)
             }
-            //console.log("async")
-            //this.passwordLength = parseInt(length)
         },
-        updatePasswordStrong() {
-            let passwordStrongValue = (this.passwordLength / 16) * 100
+        updatePasswordStrength() {
+            let passwordStrengthValue = (this.passwordLength / 16) * 100
 
-            this.passwordStrongValue = (passwordStrongValue > 100) ? 100 : passwordStrongValue
+            this.passwordStrengthValue = (passwordStrengthValue > 100) ? 100 : passwordStrengthValue
 
             if (this.passwordLength > 12) {
-                this.passwordStrongType = "success"
+                this.passwordStrengthType = "success"
                 return
             }
 
             if (this.passwordLength > 5) {
-                this.passwordStrongType = "warning"
+                this.passwordStrengthType = "warning"
                 return
             }
 
             if (this.passwordLength > 0) {
-                this.passwordStrongType = "danger"
+                this.passwordStrengthType = "danger"
                 return
             }
         }
@@ -176,7 +178,7 @@ export default {
     watch: {
         passwordLength() {
             this.newPassword()
-            this.updatePasswordStrong()
+            this.updatePasswordStrength()
         },
         uppercase() {
             this.newPassword()
