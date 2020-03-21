@@ -12,7 +12,7 @@
                 <div class="col-6">
                     <ul class="nav nav-footer justify-content-end">
                         <li class="nav-item">
-                            <a href="https://github.com/Leohige/password-generator/blob/master/LICENSE.md"
+                            <a href="https://github.com/Leohige/password-generator/blob/master/LICENSE"
                                class="nav-link" target="_blank" rel="noopener">MIT License</a>
                         </li>
                     </ul>
