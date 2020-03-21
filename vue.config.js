@@ -20,5 +20,5 @@ module.exports = {
     // Enable CSS source maps.
     sourceMap: process.env.NODE_ENV !== 'production'
   },
-  baseUrl: '/password-generator',
+  publicPath: '/password-generator',
 };
